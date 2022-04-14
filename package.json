@@ -1,0 +1,38 @@
+{
+  "name": "frictionless-logger",
+  "version": "1.0.12",
+  "description": "Lightweight logger package",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "files": [
+    "build/**/*"
+  ],
+  "scripts": {
+    "clean": "del ./build/*",
+    "build": "npm run clean && tsc"
+  },
+  "author": "Hardekerlis",
+  "license": "ISC",
+  "dependencies": {
+    "app-root-path": "^3.0.0",
+    "archiver": "^5.3.0",
+    "colors": "^1.4.0",
+    "deepmerge": "^4.2.2",
+    "filesize": "^8.0.7",
+    "get-caller-file": "^2.0.5",
+    "luxon": "^2.3.1",
+    "nodemailer": "^6.7.3"
+  },
+  "devDependencies": {
+    "@types/app-root-path": "^1.2.4",
+    "@types/archiver": "^5.3.1",
+    "@types/deepmerge": "^2.2.0",
+    "@types/luxon": "^2.3.1",
+    "@types/nodemailer": "^6.4.4",
+    "del-cli": "^4.0.1",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.6.2",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.6.3"
+  }
+}
