@@ -212,9 +212,11 @@ class FileStream {
   private retireFile() {
     const date = DateTime.now();
 
-    let newFilename = `${this.directory}/log-${this.getFullDate(date)}.${
-      this.options.extenstion
-    }`;
+    const needCustomName = this.options.filename !== 'current';
+
+    let newFilename = `${this.directory}/log-${this.getFullDate(date)}${
+      needCustomName ? this.options.filename : ''
+    }.${this.options.extenstion}`;
 
     if (!this.options.zipArchive) {
       newFilename = this.doesFileExist(newFilename);
