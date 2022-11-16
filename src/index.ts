@@ -595,15 +595,4 @@ class Logger {
   }
 }
 
-const logger = new Logger({
-  silent: true,
-  showSourceFile: ColorsEnum.BrightGreen,
-  colors: true,
-});
-
-logger.info('Testing', {
-  notify: true,
-  force: true,
-});
-
 export default Logger;
