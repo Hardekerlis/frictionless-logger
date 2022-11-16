@@ -1,6 +1,6 @@
 {
   "name": "frictionless-logger",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Lightweight logger package",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
