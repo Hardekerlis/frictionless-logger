@@ -86,6 +86,11 @@ interface LoggerNotifyOptions {
   applicationName: string;
 }
 
+interface LoggerCallLocalOptions {
+  force?: boolean;
+  notify?: boolean;
+}
+
 export interface LoggerOptions {
   silent?: LoggerLevels[] | boolean;
   file?: LoggerFileOptions;
@@ -479,10 +484,10 @@ class Logger {
     }
   }
 
-  silly(msg: string, bool?: boolean) {
+  silly(msg: string, options: LoggerCallLocalOptions) {
     const caller = getCallerFile();
 
-    if (this.shouldPrint(LoggerLevels.Silly)) {
+    if (this.shouldPrint(LoggerLevels.Silly) || options.force) {
       this.print(msg, LoggerLevels.Silly, caller);
     }
 
@@ -490,13 +495,13 @@ class Logger {
       this.printLogFile(msg, LoggerLevels.Silly, caller);
     }
 
-    if (bool) this.notify(msg, LoggerLevels.Silly, caller);
+    if (options.notify) this.notify(msg, LoggerLevels.Silly, caller);
   }
 
-  debug(msg: string, bool?: boolean) {
+  debug(msg: string, options: LoggerCallLocalOptions) {
     const caller = getCallerFile();
 
-    if (this.shouldPrint(LoggerLevels.Debug)) {
+    if (this.shouldPrint(LoggerLevels.Debug) || options.force) {
       this.print(msg, LoggerLevels.Debug, caller);
     }
 
@@ -504,24 +509,25 @@ class Logger {
       this.printLogFile(msg, LoggerLevels.Debug, caller);
     }
 
-    if (bool) this.notify(msg, LoggerLevels.Debug, caller);
+    if (options.notify) this.notify(msg, LoggerLevels.Debug, caller);
   }
 
-  verbose(msg: string, bool?: boolean) {
+  verbose(msg: string, options: LoggerCallLocalOptions) {
     const caller = getCallerFile();
-    if (this.shouldPrint(LoggerLevels.Verbose)) {
+    if (this.shouldPrint(LoggerLevels.Verbose) || options.force) {
       this.print(msg, LoggerLevels.Verbose, caller);
     }
+
     if (this.options.file) {
       this.printLogFile(msg, LoggerLevels.Verbose, caller);
     }
 
-    if (bool) this.notify(msg, LoggerLevels.Verbose, caller);
+    if (options.notify) this.notify(msg, LoggerLevels.Verbose, caller);
   }
 
-  info(msg: string, bool?: boolean) {
+  info(msg: string, options: LoggerCallLocalOptions) {
     const caller = getCallerFile();
-    if (this.shouldPrint(LoggerLevels.Info)) {
+    if (this.shouldPrint(LoggerLevels.Info) || options.force) {
       this.print(msg, LoggerLevels.Info, caller);
     }
 
@@ -529,12 +535,12 @@ class Logger {
       this.printLogFile(msg, LoggerLevels.Info, caller);
     }
 
-    if (bool) this.notify(msg, LoggerLevels.Info, caller);
+    if (options.notify) this.notify(msg, LoggerLevels.Info, caller);
   }
 
-  http(msg: string, bool?: boolean) {
+  http(msg: string, options: LoggerCallLocalOptions) {
     const caller = getCallerFile();
-    if (this.shouldPrint(LoggerLevels.Http)) {
+    if (this.shouldPrint(LoggerLevels.Http) || options.force) {
       this.print(msg, LoggerLevels.Http, caller);
     }
 
@@ -542,12 +548,12 @@ class Logger {
       this.printLogFile(msg, LoggerLevels.Http, caller);
     }
 
-    if (bool) this.notify(msg, LoggerLevels.Http, caller);
+    if (options.notify) this.notify(msg, LoggerLevels.Http, caller);
   }
 
-  warn(msg: string, bool?: boolean) {
+  warn(msg: string, options: LoggerCallLocalOptions) {
     const caller = getCallerFile();
-    if (this.shouldPrint(LoggerLevels.Warn)) {
+    if (this.shouldPrint(LoggerLevels.Warn) || options.force) {
       this.print(msg, LoggerLevels.Warn, caller);
     }
 
@@ -555,12 +561,12 @@ class Logger {
       this.printLogFile(msg, LoggerLevels.Warn, caller);
     }
 
-    if (bool) this.notify(msg, LoggerLevels.Warn, caller);
+    if (options.notify) this.notify(msg, LoggerLevels.Warn, caller);
   }
 
-  error(msg: string, bool?: boolean) {
+  error(msg: string, options: LoggerCallLocalOptions) {
     const caller = getCallerFile();
-    if (this.shouldPrint(LoggerLevels.Error)) {
+    if (this.shouldPrint(LoggerLevels.Error) || options.force) {
       this.print(msg, LoggerLevels.Error, caller);
     }
 
@@ -568,7 +574,7 @@ class Logger {
       this.printLogFile(msg, LoggerLevels.Error, caller);
     }
 
-    if (bool) this.notify(msg, LoggerLevels.Error, caller);
+    if (options.notify) this.notify(msg, LoggerLevels.Error, caller);
   }
 
   // Create a local instance of logger
@@ -584,5 +590,16 @@ class Logger {
     return merge(x, y);
   }
 }
+
+const logger = new Logger({
+  silent: true,
+  showSourceFile: ColorsEnum.BrightGreen,
+  colors: true,
+});
+
+logger.info('Testing', {
+  notify: true,
+  force: true,
+});
 
 export default Logger;
