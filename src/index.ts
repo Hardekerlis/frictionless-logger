@@ -484,10 +484,13 @@ class Logger {
     }
   }
 
-  silly(msg: string, options: LoggerCallLocalOptions) {
+  silly(msg: string, options?: LoggerCallLocalOptions) {
     const caller = getCallerFile();
 
-    if (this.shouldPrint(LoggerLevels.Silly) || options.force) {
+    if (
+      this.shouldPrint(LoggerLevels.Silly) ||
+      (options && options && options.force)
+    ) {
       this.print(msg, LoggerLevels.Silly, caller);
     }
 
@@ -495,13 +498,13 @@ class Logger {
       this.printLogFile(msg, LoggerLevels.Silly, caller);
     }
 
-    if (options.notify) this.notify(msg, LoggerLevels.Silly, caller);
+    if (options && options.notify) this.notify(msg, LoggerLevels.Silly, caller);
   }
 
   debug(msg: string, options: LoggerCallLocalOptions) {
     const caller = getCallerFile();
 
-    if (this.shouldPrint(LoggerLevels.Debug) || options.force) {
+    if (this.shouldPrint(LoggerLevels.Debug) || (options && options.force)) {
       this.print(msg, LoggerLevels.Debug, caller);
     }
 
@@ -509,12 +512,12 @@ class Logger {
       this.printLogFile(msg, LoggerLevels.Debug, caller);
     }
 
-    if (options.notify) this.notify(msg, LoggerLevels.Debug, caller);
+    if (options && options.notify) this.notify(msg, LoggerLevels.Debug, caller);
   }
 
   verbose(msg: string, options: LoggerCallLocalOptions) {
     const caller = getCallerFile();
-    if (this.shouldPrint(LoggerLevels.Verbose) || options.force) {
+    if (this.shouldPrint(LoggerLevels.Verbose) || (options && options.force)) {
       this.print(msg, LoggerLevels.Verbose, caller);
     }
 
@@ -522,12 +525,13 @@ class Logger {
       this.printLogFile(msg, LoggerLevels.Verbose, caller);
     }
 
-    if (options.notify) this.notify(msg, LoggerLevels.Verbose, caller);
+    if (options && options.notify)
+      this.notify(msg, LoggerLevels.Verbose, caller);
   }
 
   info(msg: string, options: LoggerCallLocalOptions) {
     const caller = getCallerFile();
-    if (this.shouldPrint(LoggerLevels.Info) || options.force) {
+    if (this.shouldPrint(LoggerLevels.Info) || (options && options.force)) {
       this.print(msg, LoggerLevels.Info, caller);
     }
 
@@ -535,12 +539,12 @@ class Logger {
       this.printLogFile(msg, LoggerLevels.Info, caller);
     }
 
-    if (options.notify) this.notify(msg, LoggerLevels.Info, caller);
+    if (options && options.notify) this.notify(msg, LoggerLevels.Info, caller);
   }
 
   http(msg: string, options: LoggerCallLocalOptions) {
     const caller = getCallerFile();
-    if (this.shouldPrint(LoggerLevels.Http) || options.force) {
+    if (this.shouldPrint(LoggerLevels.Http) || (options && options.force)) {
       this.print(msg, LoggerLevels.Http, caller);
     }
 
@@ -548,12 +552,12 @@ class Logger {
       this.printLogFile(msg, LoggerLevels.Http, caller);
     }
 
-    if (options.notify) this.notify(msg, LoggerLevels.Http, caller);
+    if (options && options.notify) this.notify(msg, LoggerLevels.Http, caller);
   }
 
   warn(msg: string, options: LoggerCallLocalOptions) {
     const caller = getCallerFile();
-    if (this.shouldPrint(LoggerLevels.Warn) || options.force) {
+    if (this.shouldPrint(LoggerLevels.Warn) || (options && options.force)) {
       this.print(msg, LoggerLevels.Warn, caller);
     }
 
@@ -561,12 +565,12 @@ class Logger {
       this.printLogFile(msg, LoggerLevels.Warn, caller);
     }
 
-    if (options.notify) this.notify(msg, LoggerLevels.Warn, caller);
+    if (options && options.notify) this.notify(msg, LoggerLevels.Warn, caller);
   }
 
   error(msg: string, options: LoggerCallLocalOptions) {
     const caller = getCallerFile();
-    if (this.shouldPrint(LoggerLevels.Error) || options.force) {
+    if (this.shouldPrint(LoggerLevels.Error) || (options && options.force)) {
       this.print(msg, LoggerLevels.Error, caller);
     }
 
@@ -574,7 +578,7 @@ class Logger {
       this.printLogFile(msg, LoggerLevels.Error, caller);
     }
 
-    if (options.notify) this.notify(msg, LoggerLevels.Error, caller);
+    if (options && options.notify) this.notify(msg, LoggerLevels.Error, caller);
   }
 
   // Create a local instance of logger
