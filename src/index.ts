@@ -501,7 +501,7 @@ class Logger {
     if (options && options.notify) this.notify(msg, LoggerLevels.Silly, caller);
   }
 
-  debug(msg: string, options: LoggerCallLocalOptions) {
+  debug(msg: string, options?: LoggerCallLocalOptions) {
     const caller = getCallerFile();
 
     if (this.shouldPrint(LoggerLevels.Debug) || (options && options.force)) {
@@ -515,7 +515,7 @@ class Logger {
     if (options && options.notify) this.notify(msg, LoggerLevels.Debug, caller);
   }
 
-  verbose(msg: string, options: LoggerCallLocalOptions) {
+  verbose(msg: string, options?: LoggerCallLocalOptions) {
     const caller = getCallerFile();
     if (this.shouldPrint(LoggerLevels.Verbose) || (options && options.force)) {
       this.print(msg, LoggerLevels.Verbose, caller);
@@ -529,7 +529,7 @@ class Logger {
       this.notify(msg, LoggerLevels.Verbose, caller);
   }
 
-  info(msg: string, options: LoggerCallLocalOptions) {
+  info(msg: string, options?: LoggerCallLocalOptions) {
     const caller = getCallerFile();
     if (this.shouldPrint(LoggerLevels.Info) || (options && options.force)) {
       this.print(msg, LoggerLevels.Info, caller);
@@ -542,7 +542,7 @@ class Logger {
     if (options && options.notify) this.notify(msg, LoggerLevels.Info, caller);
   }
 
-  http(msg: string, options: LoggerCallLocalOptions) {
+  http(msg: string, options?: LoggerCallLocalOptions) {
     const caller = getCallerFile();
     if (this.shouldPrint(LoggerLevels.Http) || (options && options.force)) {
       this.print(msg, LoggerLevels.Http, caller);
@@ -555,7 +555,7 @@ class Logger {
     if (options && options.notify) this.notify(msg, LoggerLevels.Http, caller);
   }
 
-  warn(msg: string, options: LoggerCallLocalOptions) {
+  warn(msg: string, options?: LoggerCallLocalOptions) {
     const caller = getCallerFile();
     if (this.shouldPrint(LoggerLevels.Warn) || (options && options.force)) {
       this.print(msg, LoggerLevels.Warn, caller);
@@ -568,7 +568,7 @@ class Logger {
     if (options && options.notify) this.notify(msg, LoggerLevels.Warn, caller);
   }
 
-  error(msg: string, options: LoggerCallLocalOptions) {
+  error(msg: string, options?: LoggerCallLocalOptions) {
     const caller = getCallerFile();
     if (this.shouldPrint(LoggerLevels.Error) || (options && options.force)) {
       this.print(msg, LoggerLevels.Error, caller);
