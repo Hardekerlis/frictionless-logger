@@ -73,7 +73,7 @@ interface LoggerFileOptions {
   };
   zipArchive?: boolean;
   dirname?: string;
-  aboslutPath?: string;
+  absolutPath?: string;
   filename?: string;
   extenstion?: string;
 }
@@ -163,7 +163,7 @@ class FileStream {
 
   private createFolder(dir: string): string {
     const directory = `${
-      this.options.absolutPath ? this.options.aboslutPath : appRoot.path
+      this.options.absolutPath ? this.options.absolutPath : appRoot.path
     }/${dir}`;
 
     if (!fs.existsSync(directory)) {
