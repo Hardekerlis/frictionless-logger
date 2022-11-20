@@ -73,6 +73,7 @@ interface LoggerFileOptions {
   };
   zipArchive?: boolean;
   dirname?: string;
+  absolutePath?: string;
   filename?: string;
   extenstion?: string;
 }
@@ -85,6 +86,11 @@ interface LoggerNotifyOptions {
   applicationName: string;
 }
 
+interface LoggerCallLocalOptions {
+  force?: boolean;
+  notify?: boolean;
+}
+
 export interface LoggerOptions {
   silent?: LoggerLevels[] | boolean;
   file?: LoggerFileOptions;
@@ -92,7 +98,6 @@ export interface LoggerOptions {
   message?: LoggerMessageOptions;
   showSourceFile?: ColorsEnum;
   colors?: boolean;
-  name?: string;
 }
 
 let globalLoggerOptions: LoggerOptions = {
@@ -100,10 +105,6 @@ let globalLoggerOptions: LoggerOptions = {
   showSourceFile: ColorsEnum.BrightGreen,
   colors: true,
   message: {
-    // static: {
-    //   text: 'Test',
-    //   color: ColorsEnum.Black,
-    // },
     level: {
       silly: {
         color: ColorsEnum.BrightWhite,
@@ -161,7 +162,9 @@ class FileStream {
   }
 
   private createFolder(dir: string): string {
-    const directory = `${appRoot.path}/${dir}`;
+    const directory = `${
+      this.options.absolutePath ? this.options.absolutePath : appRoot.path
+    }/${dir}`;
 
     if (!fs.existsSync(directory)) {
       fs.mkdirSync(directory);
@@ -476,10 +479,13 @@ class Logger {
     }
   }
 
-  silly(msg: string, bool?: boolean) {
+  silly(msg: string, options?: LoggerCallLocalOptions) {
     const caller = getCallerFile();
 
-    if (this.shouldPrint(LoggerLevels.Silly)) {
+    if (
+      this.shouldPrint(LoggerLevels.Silly) ||
+      (options && options && options.force)
+    ) {
       this.print(msg, LoggerLevels.Silly, caller);
     }
 
@@ -487,13 +493,13 @@ class Logger {
       this.printLogFile(msg, LoggerLevels.Silly, caller);
     }
 
-    if (bool) this.notify(msg, LoggerLevels.Silly, caller);
+    if (options && options.notify) this.notify(msg, LoggerLevels.Silly, caller);
   }
 
-  debug(msg: string, bool?: boolean) {
+  debug(msg: string, options?: LoggerCallLocalOptions) {
     const caller = getCallerFile();
 
-    if (this.shouldPrint(LoggerLevels.Debug)) {
+    if (this.shouldPrint(LoggerLevels.Debug) || (options && options.force)) {
       this.print(msg, LoggerLevels.Debug, caller);
     }
 
@@ -501,24 +507,26 @@ class Logger {
       this.printLogFile(msg, LoggerLevels.Debug, caller);
     }
 
-    if (bool) this.notify(msg, LoggerLevels.Debug, caller);
+    if (options && options.notify) this.notify(msg, LoggerLevels.Debug, caller);
   }
 
-  verbose(msg: string, bool?: boolean) {
+  verbose(msg: string, options?: LoggerCallLocalOptions) {
     const caller = getCallerFile();
-    if (this.shouldPrint(LoggerLevels.Verbose)) {
+    if (this.shouldPrint(LoggerLevels.Verbose) || (options && options.force)) {
       this.print(msg, LoggerLevels.Verbose, caller);
     }
+
     if (this.options.file) {
       this.printLogFile(msg, LoggerLevels.Verbose, caller);
     }
 
-    if (bool) this.notify(msg, LoggerLevels.Verbose, caller);
+    if (options && options.notify)
+      this.notify(msg, LoggerLevels.Verbose, caller);
   }
 
-  info(msg: string, bool?: boolean) {
+  info(msg: string, options?: LoggerCallLocalOptions) {
     const caller = getCallerFile();
-    if (this.shouldPrint(LoggerLevels.Info)) {
+    if (this.shouldPrint(LoggerLevels.Info) || (options && options.force)) {
       this.print(msg, LoggerLevels.Info, caller);
     }
 
@@ -526,12 +534,12 @@ class Logger {
       this.printLogFile(msg, LoggerLevels.Info, caller);
     }
 
-    if (bool) this.notify(msg, LoggerLevels.Info, caller);
+    if (options && options.notify) this.notify(msg, LoggerLevels.Info, caller);
   }
 
-  http(msg: string, bool?: boolean) {
+  http(msg: string, options?: LoggerCallLocalOptions) {
     const caller = getCallerFile();
-    if (this.shouldPrint(LoggerLevels.Http)) {
+    if (this.shouldPrint(LoggerLevels.Http) || (options && options.force)) {
       this.print(msg, LoggerLevels.Http, caller);
     }
 
@@ -539,12 +547,12 @@ class Logger {
       this.printLogFile(msg, LoggerLevels.Http, caller);
     }
 
-    if (bool) this.notify(msg, LoggerLevels.Http, caller);
+    if (options && options.notify) this.notify(msg, LoggerLevels.Http, caller);
   }
 
-  warn(msg: string, bool?: boolean) {
+  warn(msg: string, options?: LoggerCallLocalOptions) {
     const caller = getCallerFile();
-    if (this.shouldPrint(LoggerLevels.Warn)) {
+    if (this.shouldPrint(LoggerLevels.Warn) || (options && options.force)) {
       this.print(msg, LoggerLevels.Warn, caller);
     }
 
@@ -552,12 +560,12 @@ class Logger {
       this.printLogFile(msg, LoggerLevels.Warn, caller);
     }
 
-    if (bool) this.notify(msg, LoggerLevels.Warn, caller);
+    if (options && options.notify) this.notify(msg, LoggerLevels.Warn, caller);
   }
 
-  error(msg: string, bool?: boolean) {
+  error(msg: string, options?: LoggerCallLocalOptions) {
     const caller = getCallerFile();
-    if (this.shouldPrint(LoggerLevels.Error)) {
+    if (this.shouldPrint(LoggerLevels.Error) || (options && options.force)) {
       this.print(msg, LoggerLevels.Error, caller);
     }
 
@@ -565,7 +573,7 @@ class Logger {
       this.printLogFile(msg, LoggerLevels.Error, caller);
     }
 
-    if (bool) this.notify(msg, LoggerLevels.Error, caller);
+    if (options && options.notify) this.notify(msg, LoggerLevels.Error, caller);
   }
 
   // Create a local instance of logger

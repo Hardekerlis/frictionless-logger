@@ -1,7 +1,11 @@
 {
   "name": "frictionless-logger",
-  "version": "1.0.13",
+  "version": "1.1.0",
   "description": "Lightweight logger package",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Hardekerlis/frictionless-logger.git"
+  },
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
   "files": [
