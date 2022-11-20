@@ -576,6 +576,12 @@ class Logger {
     if (options && options.notify) this.notify(msg, LoggerLevels.Error, caller);
   }
 
+  lineBreak() {
+    if (!this.options.silent) {
+      process.stdout.write('\n');
+    }
+  }
+
   // Create a local instance of logger
   duplicate(options: LoggerOptions): Logger {
     return new Logger(options, true);
