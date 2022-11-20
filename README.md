@@ -2,10 +2,6 @@
 
 Frictionless logger is a highly customizable logger with support for both production and development environments
 
-#### How it works
-
-The logger has different attributes to help you know where the log is comming from. When configuring the logger you have the option to show which file it is coming from.
-
 #### Setting up the logger
 
 ```typescript
