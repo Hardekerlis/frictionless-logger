@@ -1,6 +1,6 @@
 {
   "name": "frictionless-logger",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Lightweight logger package",
   "repository": {
     "type": "git",
