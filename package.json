@@ -13,7 +13,8 @@
   ],
   "scripts": {
     "clean": "del ./build/*",
-    "build": "npm run clean && tsc"
+    "build": "npm run clean && tsc",
+    "run": "ts-node ./src/index.ts"
   },
   "author": "Hardekerlis",
   "license": "ISC",
