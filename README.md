@@ -113,7 +113,7 @@ const logger1 = new Logger(); // Will not have global config
 
 // This will save as a global config which will initialize on all new loggers
 new Logger(
-  Logger.combine(
+  Logger.combine( // Deep merge of objects
     config,
     {
       notify: {
