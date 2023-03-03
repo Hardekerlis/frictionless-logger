@@ -10,6 +10,8 @@ export class FileStream {
   options: LoggerFileOptions;
   directory: string;
   currentLog: string;
+  isSwappingFile = false;
+  queuedLogs: string[] = [];
 
   constructor(options: LoggerFileOptions) {
     if (!options.dirname) options.dirname = 'logs';
@@ -125,6 +127,7 @@ export class FileStream {
   private createStream(): fs.WriteStream {
     const date = DateTime.now();
     const today = this.getFullDate(date);
+    this.isSwappingFile = true;
 
     if (fs.existsSync(this.currentLog)) {
       const currentFileBirth = DateTime.fromJSDate(
@@ -136,9 +139,13 @@ export class FileStream {
       }
     }
 
-    return fs.createWriteStream(this.currentLog, {
+    const stream = fs.createWriteStream(this.currentLog, {
       flags: 'a+',
     });
+
+    this.isSwappingFile = false;
+
+    return stream;
   }
 
   private checkCurrentSize() {
@@ -173,7 +180,17 @@ export class FileStream {
   }
 
   write(msg: string) {
-    this.stream.write(msg, 'utf8');
+    if (this.isSwappingFile) {
+      this.queuedLogs.push(msg);
+    } else {
+      if (this.queuedLogs[0]) {
+        for (const log of this.queuedLogs) {
+          this.stream.write(log, 'utf-8');
+        }
+      }
+
+      this.stream.write(msg, 'utf-8');
+    }
 
     this.checkDate();
     this.checkCurrentSize();
