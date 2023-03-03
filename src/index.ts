@@ -7,6 +7,4 @@ const logger = new Logger();
 
 export { logger };
 
-logger.debug('123');
-
 export default Logger;

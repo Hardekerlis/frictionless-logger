@@ -5,6 +5,13 @@ import { LoggerFileOptions } from './interfaces/loggerFileOptions';
 import fs from 'fs';
 import appRoot from 'app-root-path';
 
+const LocalSizeUnits = {
+  b: 0,
+  kb: 1,
+  mb: 2,
+  gb: 3,
+};
+
 export class FileStream {
   stream: fs.WriteStream;
   options: LoggerFileOptions;
