@@ -17,7 +17,6 @@ export class FileStream {
   options: LoggerFileOptions;
   directory: string;
   currentLog: string;
-  isSwappingFile = false;
   queuedLogs: string[] = [];
 
   constructor(options: LoggerFileOptions) {
@@ -87,7 +86,7 @@ export class FileStream {
   }
 
   private retireFile() {
-    const date = DateTime.now();
+    const date = DateTime.now().minus({ day: 1 });
 
     const needCustomName = this.options.filename !== 'current';
 
@@ -134,7 +133,6 @@ export class FileStream {
   private createStream(): fs.WriteStream {
     const date = DateTime.now();
     const today = this.getFullDate(date);
-    this.isSwappingFile = true;
 
     if (fs.existsSync(this.currentLog)) {
       const currentFileBirth = DateTime.fromJSDate(
@@ -146,13 +144,9 @@ export class FileStream {
       }
     }
 
-    const stream = fs.createWriteStream(this.currentLog, {
+    return fs.createWriteStream(this.currentLog, {
       flags: 'a+',
     });
-
-    this.isSwappingFile = false;
-
-    return stream;
   }
 
   private checkCurrentSize() {
@@ -186,20 +180,23 @@ export class FileStream {
       this.stream = this.createStream();
   }
 
+  writeQueue: string[] = [];
+
   write(msg: string) {
-    if (this.isSwappingFile) {
-      this.queuedLogs.push(msg);
-    } else {
-      if (this.queuedLogs[0]) {
-        for (const log of this.queuedLogs) {
-          this.stream.write(log, 'utf-8');
+    const path = this.stream.path;
+    if (fs.existsSync(path)) {
+      if (this.writeQueue[0]) {
+        for (const savedMsg of this.writeQueue) {
+          this.stream.write(savedMsg);
         }
       }
 
-      this.stream.write(msg, 'utf-8');
-    }
+      this.stream.write(msg);
 
-    this.checkDate();
-    this.checkCurrentSize();
+      this.checkDate();
+      this.checkCurrentSize();
+    } else {
+      this.writeQueue.push(msg);
+    }
   }
 }
