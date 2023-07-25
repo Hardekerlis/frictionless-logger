@@ -10,7 +10,10 @@
   "scripts": {
     "clean": "del ./dist/*",
     "build": "npm run clean && tsc",
-    "run": "ts-node ./src/index.ts"
+    "run": "ts-node ./src/index.ts",
+    "patch": "npm run build && npm version patch && npm publish",
+    "minor": "npm run build && npm version minor && npm publish",
+    "major": "npm run build && npm version major && npm publish"
   },
   "author": "Hardekerlis",
   "license": "ISC",
