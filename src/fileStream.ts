@@ -144,8 +144,6 @@ export class FileStream {
       }
     }
 
-    fs.writeFileSync(this.currentLog, '');
-
     return fs.createWriteStream(this.currentLog, {
       flags: 'a+',
     });

@@ -1,18 +1,14 @@
 {
-  "name": "frictionless-logger",
+  "name": "@byteboost/logger",
   "version": "1.2.3",
   "description": "Lightweight logger package",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Hardekerlis/frictionless-logger.git"
-  },
-  "main": "./build/index.js",
-  "types": "./build/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
-    "build/**/*"
+    "dist/**/*"
   ],
   "scripts": {
-    "clean": "del ./build/*",
+    "clean": "del ./dist/*",
     "build": "npm run clean && tsc",
     "run": "ts-node ./src/index.ts"
   },
