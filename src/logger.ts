@@ -318,7 +318,10 @@ export class Logger {
     return this.options;
   }
 
-  static combine(x: object, y: object): object {
+  static combine(
+    x: Partial<LoggerOptions>,
+    y: Partial<LoggerOptions>,
+  ): Partial<LoggerOptions> {
     return merge(x, y);
   }
 }

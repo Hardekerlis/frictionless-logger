@@ -11,9 +11,9 @@
     "clean": "del ./dist/*",
     "build": "npm run clean && tsc",
     "run": "ts-node ./src/index.ts",
-    "patch": "npm run build && npm version patch && npm publish",
-    "minor": "npm run build && npm version minor && npm publish",
-    "major": "npm run build && npm version major && npm publish"
+    "patch": "npm run build && npm version patch && npm publish && git push",
+    "minor": "npm run build && npm version minor && npm publish && git push",
+    "major": "npm run build && npm version major && npm publish && git push"
   },
   "author": "Hardekerlis",
   "license": "ISC",
